@@ -15,7 +15,7 @@ This is not realated to Jellyfin in any way.
 * Clone the repo `git clone https://github.com/chuckcrump/Crappyfin`
 * Install packages `npm install` or `bun install`
 * You need a `/media` folder in the root project or point the `server.ts` to another path.
-* Also create a `.env` file to point at the server urls for the typescript and go backend with `VITE_GO_SERVER_URL` and `VITE_TS_SERVER_URL`.
+* Rename the env-example and add the url to the go and ts servers port needed, example: `http://localhost:8080`.
 * finally run `server.ts` and `bun start` or `npm start`
 
 ### Built with
