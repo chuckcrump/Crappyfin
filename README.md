@@ -22,5 +22,4 @@ This is not realated to Jellyfin in any way.
 * SvelteKit
 * Hono
 * Go
-  
-C# backend is in progress.
+* Asp.net 
