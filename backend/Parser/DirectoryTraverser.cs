@@ -8,6 +8,7 @@ public class DirectoryTraverser
     {
         List<MovieClass> Movies = new();
         string[] mediaDirs = Directory.GetDirectories(mediaPath);
+        string jsonPath = Environment.GetEnvironmentVariable("MEDIA_PATH")!;
         foreach (var movie in mediaDirs)
         {
             Movies.Add(ProcessMovie(movie));
@@ -19,7 +20,7 @@ public class DirectoryTraverser
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
 
-        using (StreamWriter sw = new StreamWriter("/home/andy/projects/crappyfin/streaming-frontend/movie.json"))
+        using (StreamWriter sw = new StreamWriter(jsonPath + "/movie.json"))
         {
             sw.Write(JsonSerializer.Serialize(Movies, options));
         }
