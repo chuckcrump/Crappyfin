@@ -1,10 +1,12 @@
 import type { PageServerLoad } from "./$types";
 import { error } from "@sveltejs/kit";
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({ depends }) => {
+  depends("movies:list");
   try {
     const response = await fetch(
-      `${import.meta.env.VITE_TS_SERVER_URL}/media/list`
+      `${import.meta.env.VITE_TS_SERVER_URL}/movies/list`,
+      { keepalive: true }
     );
     if (!response.ok) {
       throw error(response.status, {

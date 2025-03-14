@@ -15,8 +15,8 @@
   let trackElement: HTMLTrackElement | null = null;
 
   async function loadMovie(movie: any) {
-    currentMovieUrl = `${import.meta.env.VITE_GO_SERVER_URL}/go/media/stream?movie=${movie.path}`
-    currentSubUrl = `${import.meta.env.VITE_GO_SERVER_URL}/go/media/subtitles?sub=${movie.subtitle_path}`
+    currentMovieUrl = `${import.meta.env.VITE_GO_SERVER_URL}/go/media/stream?movie=${movie.videoPath}`
+    currentSubUrl = `${import.meta.env.VITE_GO_SERVER_URL}/go/media/subtitles?sub=${movie.subtitlePath}`
     if (movie.name) {
       currentMovieName = movie.name
     }

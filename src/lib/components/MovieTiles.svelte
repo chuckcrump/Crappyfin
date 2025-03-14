@@ -18,7 +18,7 @@
         {#if movie.cover_image == ""}
           <p class="h-[320px] bg-[#343434] text-white">No image found</p>
         {:else}
-          <img class="w-56 rounded-lg" src="{import.meta.env.VITE_TS_SERVER_URL}/media/previews?path={movie.cover_image}" alt="">
+          <img class="w-56 rounded-lg" src="{import.meta.env.VITE_TS_SERVER_URL}/movies/previews?path={movie.coverPath}" alt="">
         {/if}
     </button>
   </div>

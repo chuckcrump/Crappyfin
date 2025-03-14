@@ -21,12 +21,12 @@ app.use(
   })
 );
 
-app.get("/media/list", async (c) => {
+app.get("/movies/list", async (c) => {
   let movie_array = await get_movies("media");
   return c.json(movie_array, 200);
 });
 
-app.get("/media/previews", async (c) => {
+app.get("/movies/previews", async (c) => {
   const path = c.req.query("path");
   if (!path) {
     return c.text("Path is needed!");

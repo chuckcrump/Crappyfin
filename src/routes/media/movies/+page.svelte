@@ -17,7 +17,7 @@
           <MoviePlayer />
         </div>
       {:else}
-        <div class="flex flex-row gap-2 m-2">
+        <div class="flex flex-row gap-2 m-2" style="margin: 8px;">
           {#each data.movies as movie}
             <MovieTiles movie={movie} />
           {/each}
