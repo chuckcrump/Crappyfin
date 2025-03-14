@@ -15,7 +15,7 @@ This is not realated to Jellyfin in any way.
 * Clone the repo `git clone https://github.com/chuckcrump/Crappyfin`
 * Install packages `npm install` or `bun install`
 * You need a `/media` folder in the root project or point the `server.ts` to another path.
-* finally run `server.ts` and `bun run dev` to start (I will add concurrently soon)
+* finally run `server.ts` and `bun start` or `npm start`
 
 ### Built with
 * SvelteKit
