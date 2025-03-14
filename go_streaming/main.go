@@ -11,8 +11,8 @@ import (
 func enableCors(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Acces-Control-Allow-Methods", "GET, POST, OPTIONS")
-		w.Header().Set("Acces-Control-Allow-Headers", "Content-Type, Authorization")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 
 		if r.Method == http.MethodOptions {
 			w.WriteHeader(http.StatusOK)
@@ -29,7 +29,7 @@ func stream_video(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
 	}
   //formatted_path := movie_path[3:]
-	videoPath := "/home/andy/projects/streaming/" + movie_path 
+	videoPath := movie_path 
 	file, err := os.Open(videoPath)
 	if err != nil {
 		http.Error(w, "File not found", http.StatusNotFound)
@@ -74,7 +74,7 @@ func stream_video(w http.ResponseWriter, r *http.Request) {
 
 func stream_subtitle(w http.ResponseWriter, r *http.Request) {
   sub_path := r.URL.Query().Get("sub")
-  http.ServeFile(w, r, "/home/andy/projects/streaming/" + sub_path)
+  http.ServeFile(w, r, sub_path)
 }
 
 func main() {
@@ -82,6 +82,6 @@ func main() {
 	mux.HandleFunc("/go/media/stream", stream_video)
 	mux.HandleFunc("/go/media/subtitles", stream_subtitle)
 	cors := enableCors(mux)
-	fmt.Println("Server running at http://localhost:8080/media/go/stream")
+	fmt.Println("Server running at http://0.0.0.0:8081/go")
 	http.ListenAndServe("0.0.0.0:8081", cors)
 }
