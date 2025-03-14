@@ -8,8 +8,8 @@ exec("go_streaming/stream", (stdout) => {
 });
 
 interface Request {
-  movie_path?: string;
-  subitle?: string;
+  moviePath?: string;
+  subitlePath?: string;
 }
 
 const app = new Hono();
