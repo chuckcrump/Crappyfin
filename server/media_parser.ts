@@ -4,9 +4,9 @@ import { convert_file } from "./srt_parser";
 type Files = {
   uuid?: string;
   name?: string;
-  path?: string;
-  subtitle_path?: string;
-  cover_image?: string;
+  videoPath?: string;
+  subtitlePath?: string;
+  coverPath?: string;
 };
 
 let files: Files[] = [];
@@ -44,9 +44,9 @@ function get_relevant_files(movie_path: string, name: string) {
       movie_obj = {
         uuid: crypto.randomUUID(),
         name: name,
-        path: movie_path + "/" + movie_file,
-        subtitle_path: subtitle_file ? `${movie_path}/${subtitle_file}` : "",
-        cover_image: cover_image,
+        videoPath: movie_path + "/" + movie_file,
+        subtitlPath: subtitle_file ? `${movie_path}/${subtitle_file}` : "",
+        coverPath: cover_image,
       };
       files.push(movie_obj);
     }
