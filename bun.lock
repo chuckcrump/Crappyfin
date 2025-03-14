@@ -4,7 +4,6 @@
     "": {
       "name": "streaming-frontend",
       "dependencies": {
-        "@lucide/svelte": "^0.479.0",
         "@tailwindcss/vite": "^4.0.13",
         "@types/bun": "^1.2.5",
         "@types/node": "^22.13.10",
@@ -85,8 +84,6 @@
     "@jridgewell/sourcemap-codec": ["@jridgewell/sourcemap-codec@1.5.0", "", {}, "sha512-gv3ZRaISU3fjPAgNsriBRqGWQL6quFx04YMPW/zD8XMLsU32mhCCbfbO6KZFLjvYpCZ8zyDEgqsgf+PwPaM7GQ=="],
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.25", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ=="],
-
-    "@lucide/svelte": ["@lucide/svelte@0.479.0", "", { "peerDependencies": { "svelte": "^5" } }, "sha512-k/JaO8FHvmK7GLCy9vibA7O1a9nCtlfIs0tU/yYlmkqykVEvz9NRFkpR8g2kbsc79uFVz0Q2tjnRC09vd9AxmA=="],
 
     "@polka/url": ["@polka/url@1.0.0-next.28", "", {}, "sha512-8LduaNlMZGwdZ6qWrKlfa+2M4gahzFkprZiAt2TF8uS0qQgBizKXpXURqvTJ4WtmupWxaLqjRb2UCTe72mu+Aw=="],
 
