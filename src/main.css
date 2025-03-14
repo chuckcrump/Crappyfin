@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+.login-input {
+  @apply p-2 rounded-xl bg-[#343434];
+}
+
+.btn-normal {
+  @apply p-2 rounded-xl bg-indigo-500 text-white cursor-pointer active:scale-95 transition-all ease-in-out;
+}
+
+.media-slider {
+  height: 12px;
+  appearance: none;
+  background: rgb(209, 209, 209);
+  border-radius: 15px;
+  overflow: hidden;
+}
+.media-slider::-moz-range-thumb {
+  appearance: none;
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  border: 2px solid #1d77bc;
+  box-shadow: -607px 0 0 600px #1d77bc;
+}
+.media-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  background: white;
+  border-radius: 50%;
+  border: 2px solid #1d77bc;
+  box-shadow: -607px 0 0 600px #1d77bc;
+}
