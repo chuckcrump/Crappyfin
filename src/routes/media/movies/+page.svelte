@@ -7,7 +7,7 @@
   export let data 
 </script>
 
-<div class="flex justify-center">
+<div class="flex justify-center" style="margin-top: 48px;">
   {#if !data.movies}
     <LoadingSpinner size="40" />
   {:else}
@@ -27,12 +27,12 @@
 
 <style>
   .movie-grid {
-  --ratio: 2/3;
+  --ratio: 27/40;
   --gap: 1rem;
   --padding: 16px;
   
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: var(--gap);
   padding-top: var(--padding);
   padding-bottom: var(--padding);
@@ -50,35 +50,35 @@
 
 @media (min-width: 512px) {
   .movie-grid {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     --gap: 1rem;
   }
 }
 
 @media (min-width: 640px) {
   .movie-grid {
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     --gap: 1rem;
   }
 }
 
 @media (min-width: 768px) {
   .movie-grid {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     --gap: 1rem;
   }
 }
 
 @media (min-width: 1024px) {
   .movie-grid {
-    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
     --gap: 1rem;
   }
 }
 
 @media (min-width: 1280px) {
   .movie-grid {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     --gap: 1rem;
   }
 }

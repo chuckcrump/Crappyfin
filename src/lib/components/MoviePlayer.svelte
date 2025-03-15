@@ -4,7 +4,6 @@
   import MediaControls from "./MediaControls.svelte";
   import { progress, subtitleTrack, volume, videoPaused, currentMovie, isPlaying } from "./stores";
   
-  //let movies: any[] = []
   let currentMovieUrl = ""
   let currentSubUrl = ""
   let currentMovieName = ""
@@ -41,7 +40,6 @@
   }
   function updateSubText() {
     if (video) {
-      console.log("chagei")
       const track = video?.textTracks[0];
       if (!track) console.log("No subtitle")
       const activeCues = track?.activeCues;
@@ -87,7 +85,7 @@
 {#if $isPlaying}
   <!-- svelte-ignore a11y_no_static_element_interactions -->
   <div
-    class="video_container items-center justify-center h-screen bg-black"
+    class="video_container z-20 items-center justify-center h-screen bg-black"
     transition:blur={{duration: 600}}
     onmousemove={() => {
       if (timeout) {
