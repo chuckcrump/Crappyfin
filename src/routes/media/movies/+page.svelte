@@ -27,46 +27,59 @@
 
 <style>
   .movie-grid {
-    --ratio: 2/3;
-    --default-width: 140px;
+  --ratio: 2/3;
+  --gap: 1rem;
+  --padding: 16px;
+  
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: var(--gap);
+  padding-top: var(--padding);
+  padding-bottom: var(--padding);
+  width: calc(100% - 2 * var(--padding));
+  max-width: 100%;
+  box-sizing: border-box;
+}
 
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(--default-width), 1fr);
-    gap: 1rem;
-    padding: 16px;
-    width: 100%;
-    max-width: 100vw;
+.movie-grid > * {
+  aspect-ratio: var(--ratio);
+  width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 512px) {
+  .movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    --gap: 1rem;
   }
-  .movie-grid > :global(*) {
-    aspect-ratio: var(--ratio);
-    width: 100%;
-    height: auto;
-    max-width: 100%;
-    margin-bottom: 3rem;
+}
+
+@media (min-width: 640px) {
+  .movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    --gap: 1rem;
   }
-  @media (min-width: 512px) {
-    .movie-grid {
-      --default-width: 350px;
-    }
+}
+
+@media (min-width: 768px) {
+  .movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    --gap: 1rem;
   }
-  @media (min-width: 640px) {
-    .movie-grid {
-      --default-width: 300px;
-    }
+}
+
+@media (min-width: 1024px) {
+  .movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    --gap: 1rem;
   }
-  @media (min-width: 768px) {
-    .movie-grid {
-      grid-template-columns: repeat(4, 1fr);
-    }
+}
+
+@media (min-width: 1280px) {
+  .movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    --gap: 1rem;
   }
-  @media (min-width: 1024px) {
-    .movie-grid {
-      grid-template-columns: repeat(5, 1fr);
-    }
-  }
-  @media (min-width: 1280px) {
-    .movie-grid {
-      grid-template-columns: repeat(6, 1fr);
-    }
-  }
+}
 </style>
