@@ -10,17 +10,17 @@
   }
 </script>
 
-<div class=" flex flex-col items-center" out:blur={{duration: 200}} >
-  <div class=" flex flex-col items-center bg-[#343434] rounded-[10px] hover:scale-[103%] transition-all ease-in-out">
+<div class="h-full w-full" out:blur={{duration: 200}} >
+  <div class="flex flex-col h-full items-center bg-[#343434] rounded-[10px] hover:scale-[103%] transition-all ease-in-out">
     <button
-      class=" flex text-wrap w-56 h-[334px] items-center justify-center rounded-xl"
+      class="flex w-full h-full items-center justify-center rounded-lg overflow-hidden"
       onclick={() => setMovie(movie)}>
         {#if movie.cover_image == ""}
-          <p class="h-[320px] bg-[#343434] text-white">No image found</p>
+          <p class="w-full h-full bg-[#343434] text-white text-center">No image found</p>
         {:else}
-          <img class="w-56 rounded-lg" src="{import.meta.env.VITE_TS_SERVER_URL}/movies/previews?path={movie.coverPath}" alt="">
+          <img class="w-full h-full rounded-lg" src="{import.meta.env.VITE_TS_SERVER_URL}/movies/previews?path={movie.coverPath}" alt="">
         {/if}
     </button>
   </div>
-  <p class="text-white text-md">{movie.name}</p>
+  <p class="text-white text-md text-center mt-2">{movie.name}</p>
 </div>

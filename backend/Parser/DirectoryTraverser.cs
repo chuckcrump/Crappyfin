@@ -1,4 +1,5 @@
 using System.Text.Json;
+using backend;
 
 namespace Parser;
 
@@ -29,26 +30,25 @@ public class DirectoryTraverser
 
     private static MovieClass ProcessMovie(string path)
     {
-        MovieClass movie = new MovieClass("", "", "", "");
+        MovieClass movie = new MovieClass("", "", "", "", "");
         movie.Name = Path.GetFileName(path);
-
 
         string[] movieFiles = Directory.GetFiles(path);
         bool vttExists = movieFiles.Any(f => Path.GetExtension(f).Equals(".vtt", StringComparison.OrdinalIgnoreCase));
         foreach (var file in movieFiles)
         {
+            string mimeType = MimeTypes.GetMimeType(file);
+            movie.Mimes = mimeType;
             string extension = Path.GetExtension(file);
+
+            if (mimeType.StartsWith("video/", StringComparison.OrdinalIgnoreCase)) {
+                movie.VideoPath = file;
+            } else if (mimeType.StartsWith("image/", StringComparison.OrdinalIgnoreCase)) {
+                movie.CoverPath = file;
+            }
+
             switch (extension)
             {
-                case ".mp4":
-                    movie.VideoPath = file;
-                    break;
-                case ".jpg":
-                    movie.CoverPath = file;
-                    break;
-                case ".jpeg":
-                    movie.CoverPath = file;
-                    break;
                 case ".srt":
                     if (!vttExists)
                     {

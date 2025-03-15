@@ -34,3 +34,4 @@
 /home/andy/projects/crappyfin/streaming-frontend/backend/obj/Debug/net9.0/ref/backend.dll
 /home/andy/projects/crappyfin/streaming-frontend/backend/bin/Debug/net9.0/DotNetEnv.dll
 /home/andy/projects/crappyfin/streaming-frontend/backend/bin/Debug/net9.0/Sprache.dll
+/home/andy/projects/crappyfin/streaming-frontend/backend/obj/Debug/net9.0/NuGet/B7BAF9347E6A44EE79DF8928A860565212CF4DEC/MimeTypes/2.5.2/MimeTypes.Nullable.cs

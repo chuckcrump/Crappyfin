@@ -1,6 +1,6 @@
 public static class MovieEndpoints
 {
-    private static string mediaPath;
+    private static string ?mediaPath;
     public static void MapMovieEndpoints(this IEndpointRouteBuilder routes)
     {
         DotNetEnv.Env.Load("../.env");
@@ -12,8 +12,11 @@ public static class MovieEndpoints
     }
     private static IResult GetMovies()
     {
-        List<Parser.MovieClass> movies = Parser.DirectoryTraverser.Traverse(mediaPath);
-        return Results.Json(movies);
+        //if (mediaPath == null) {
+            List<Parser.MovieClass> movies = Parser.DirectoryTraverser.Traverse(mediaPath);
+            return Results.Json(movies);
+        //}
+        //return Results.Text("Media Path not specified"); 
     }
     private static IResult SendPreview(HttpContext context)
     {
