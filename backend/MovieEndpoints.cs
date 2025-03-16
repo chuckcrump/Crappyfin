@@ -7,7 +7,7 @@ public static class MovieEndpoints
         DotNetEnv.Env.Load("../.env");
 
         var Movie = routes.MapGroup("/movies");
-        Movie.MapGet("/list", GetMovies);
+        Movie.MapGet("/list", GetMovies).WithName("List of movies").Produces<Parser.MovieClass>(200, "application/json");
         Movie.MapGet("/preview/{uuid}/cover", Preview);
         Movie.MapGet("/stream/{uuid}", StartStream);
     }
