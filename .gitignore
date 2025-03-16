@@ -1,6 +1,7 @@
 node_modules
 media
 movie.json
+backend/Movies.db
 
 # Output
 .output

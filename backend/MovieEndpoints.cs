@@ -1,31 +1,58 @@
+using System.Threading.Tasks;
+using System.Windows.Markup;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
 public static class MovieEndpoints
 {
-    private static string ?mediaPath;
     public static void MapMovieEndpoints(this IEndpointRouteBuilder routes)
     {
         DotNetEnv.Env.Load("../.env");
-        mediaPath = Environment.GetEnvironmentVariable("MEDIA_PATH")!;
-        
+        string mediaPath = Environment.GetEnvironmentVariable("MEDIA_PATH")!;
+
         var Movie = routes.MapGroup("/movies");
         Movie.MapGet("/list", GetMovies);
-        Movie.MapGet("/previews", SendPreview);
+        Movie.MapGet("/preview/{uuid}/cover", Preview);
+        Movie.MapGet("/stream/{uuid}", StartStream);
     }
-    private static IResult GetMovies()
+    private static async Task<IResult> GetMovies()
     {
         //if (mediaPath == null) {
-            List<Parser.MovieClass> movies = Parser.DirectoryTraverser.Traverse(mediaPath);
-            return Results.Json(movies);
-        //}
-        //return Results.Text("Media Path not specified"); 
-    }
-    private static IResult SendPreview(HttpContext context)
-    {
-        string imagePath = context.Request.Query["path"]!;
-        if (!File.Exists(imagePath))
+        using (var context = new MovieDbContext())
         {
-            return Results.NotFound("file not found");
+            //await Parser.DirectoryTraverser.Traverse(mediaPath!);
+            List<Parser.MovieClass> movies = await context.Movies.ToListAsync();
+            //var movies = context.Movies.Select(m => new { m.Name, m.Uuid }).ToList();
+            if (movies.Count == 0) {
+                return Results.Text("Media Path not specified");
+            }
+            return Results.Json(movies);
         }
-        var type = "image/jpeg";
-        return Results.File(imagePath, type);
+        //}
+    }
+    private static async Task<IResult> Preview(string uuid)
+    {
+        using (var context = new MovieDbContext())
+        {
+            var selectedMovie = await context.Movies.FirstOrDefaultAsync(m => m.Uuid == uuid);
+            if (selectedMovie == null || !File.Exists(selectedMovie!.CoverPath))
+            {
+                return Results.NotFound("cover not found" + selectedMovie!.CoverPath);
+            }
+            var type = "image/jpeg";
+            return Results.File(selectedMovie.CoverPath, type);
+        }
+    }
+    private static async Task<IResult> StartStream(string uuid)
+    {
+        using (var context = new MovieDbContext())
+        {
+            var match = await context.Movies.FirstOrDefaultAsync(m => m.Uuid == uuid);
+            if (match == null || !File.Exists(match.VideoPath))
+            {
+                return Results.NotFound("movie file not found");
+            }
+            return Results.Text("hi this is not complete");
+        }
     }
 }
