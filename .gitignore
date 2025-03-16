@@ -1,7 +1,10 @@
 node_modules
 media
 movie.json
+# c# stuff
 backend/Movies.db
+backend/bin
+
 
 # Output
 .output
