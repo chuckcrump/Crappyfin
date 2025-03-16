@@ -1,10 +1,10 @@
-namespace Parser;
+namespace backend.Parser;
 
-public class SrtParser
+public static class SrtParser
 {
     public static string Parser(string filePath)
     {
-        List<string> updatedLines = new();
+        List<string> updatedLines = [];
         var lines = File.ReadLines(filePath);
         foreach (var line in lines)
         {
@@ -19,7 +19,7 @@ public class SrtParser
             }
         }
 
-        using (StreamWriter sw = new StreamWriter(filePath + ".vtt"))
+        using (var sw = new StreamWriter(filePath + ".vtt"))
         {
             sw.Write("WEBVTT\n\n");
             foreach (var line in updatedLines)

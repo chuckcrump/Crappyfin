@@ -1,23 +1,25 @@
 using System.Text.Json;
 using backend;
+using backend.Database;
+using backend.Parser;
 
-namespace Parser;
+namespace backend.Parser;
 
-public class DirectoryTraverser
+public static class DirectoryTraverser
 {
     public static async Task<List<MovieClass>> Traverse(string mediaPath)
     {
-        List<MovieClass> Movies = new();
-        string[] mediaDirs = Directory.GetDirectories(mediaPath);
-        string jsonPath = Environment.GetEnvironmentVariable("MEDIA_PATH")!;
+        List<MovieClass> movies = [];
+        var mediaDirs = Directory.GetDirectories(mediaPath);
+        var jsonPath = Environment.GetEnvironmentVariable("MEDIA_PATH")!;
         foreach (var movie in mediaDirs)
         {
-            string idPath = Path.Combine(movie, ".id.txt");
+            var idPath = Path.Combine(movie, ".id.txt");
             if (!File.Exists(idPath))
             {
-                addId(Guid.NewGuid().ToString(), movie);
+                AddId(Guid.NewGuid().ToString(), movie);
             }
-            Movies.Add(ProcessMovie(movie));
+            movies.Add(ProcessMovie(movie));
         }
 
         var options = new JsonSerializerOptions
@@ -26,15 +28,15 @@ public class DirectoryTraverser
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
 
-        using (StreamWriter sw = new StreamWriter(jsonPath + "/movie.json"))
+        await using (var sw = new StreamWriter(jsonPath + "/movie.json"))
         {
-            sw.Write(JsonSerializer.Serialize(Movies, options));
+            await sw.WriteAsync(JsonSerializer.Serialize(movies, options));
         }
-        using (var DbContext = new MovieDbContext())
+        await using (var dbContext = new MovieDbContext())
         {
-            foreach (var movie in Movies)
+            foreach (var movie in movies)
             {
-                var existing = await DbContext.Movies.FindAsync(movie.Uuid);
+                var existing = await dbContext.Movies.FindAsync(movie.Uuid);
                 if (existing != null)
                 {
                     existing.Name = movie.Name;
@@ -42,24 +44,26 @@ public class DirectoryTraverser
                     existing.CoverPath = movie.CoverPath;
                     existing.SubtitlePath = movie.SubtitlePath;
                     existing.Mimes = movie.Mimes;
-                    DbContext.Movies.Update(existing);
+                    dbContext.Movies.Update(existing);
                 }
                 else
                 {
-                    await DbContext.Movies.AddAsync(movie);
+                    await dbContext.Movies.AddAsync(movie);
                 }
             }
-            await DbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync();
         }
-        return Movies;
+        return movies;
     }
 
     private static MovieClass ProcessMovie(string path)
     {
-        var movie = new MovieClass("", "", "", "", "", "");
-        movie.Name = Path.GetFileName(path);
+        var movie = new MovieClass("", "", "", "", "", "")
+        {
+            Name = Path.GetFileName(path)
+        };
 
-        string idPath = Path.Combine(path, ".id.txt");
+        var idPath = Path.Combine(path, ".id.txt");
         if (File.Exists(idPath))
         {
             movie.Uuid = File.ReadAllText(idPath).Trim();
@@ -67,17 +71,17 @@ public class DirectoryTraverser
         else
         {
             movie.Uuid = Guid.NewGuid().ToString();
-            addId(movie.Uuid, path);
+            AddId(movie.Uuid, path);
         }
 
-        string[] movieFiles = Directory.GetFiles(path);
+        var movieFiles = Directory.GetFiles(path);
         bool vttExists = movieFiles.Any(f => Path.GetExtension(f).Equals(".vtt", StringComparison.OrdinalIgnoreCase));
 
         foreach (var file in movieFiles)
         {
-            string mimeType = MimeTypes.GetMimeType(file);
+            var mimeType = MimeTypes.GetMimeType(file);
             movie.Mimes = mimeType;
-            string extension = Path.GetExtension(file);
+            var extension = Path.GetExtension(file);
 
             if (mimeType.StartsWith("video/", StringComparison.OrdinalIgnoreCase))
             {
@@ -106,7 +110,7 @@ public class DirectoryTraverser
         }
         return movie;
     }
-    private static void addId(string uuid, string path)
+    private static void AddId(string uuid, string path)
     {
         File.WriteAllText(path + "/.id.txt", uuid);
     }

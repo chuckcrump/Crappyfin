@@ -1,5 +1,5 @@
 
-namespace Parser;
+namespace backend.Parser;
 
 public class MovieClass(string uuid, string name, string videoPath, string subtitlePath, string coverPath, string mimes)
 {
