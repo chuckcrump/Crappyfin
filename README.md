@@ -3,6 +3,9 @@
 > [!Caution]
 > Please don't use this for your personal media yet.
 
+> [!Warning]
+> Typescript backend will be retired soon.
+
 This is not realated to Jellyfin in any way.
 
 ### Routes
