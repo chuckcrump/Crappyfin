@@ -1,6 +1,3 @@
-using System.Threading.Tasks;
-using System.Windows.Markup;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 public static class MovieEndpoints
@@ -8,7 +5,6 @@ public static class MovieEndpoints
     public static void MapMovieEndpoints(this IEndpointRouteBuilder routes)
     {
         DotNetEnv.Env.Load("../.env");
-        string mediaPath = Environment.GetEnvironmentVariable("MEDIA_PATH")!;
 
         var Movie = routes.MapGroup("/movies");
         Movie.MapGet("/list", GetMovies);
@@ -20,7 +16,8 @@ public static class MovieEndpoints
         //if (mediaPath == null) {
         using (var context = new MovieDbContext())
         {
-            //await Parser.DirectoryTraverser.Traverse(mediaPath!);
+            string mediaPath = Environment.GetEnvironmentVariable("MEDIA_PATH")!;
+            await Parser.DirectoryTraverser.Traverse(mediaPath!);
             List<Parser.MovieClass> movies = await context.Movies.ToListAsync();
             //var movies = context.Movies.Select(m => new { m.Name, m.Uuid }).ToList();
             if (movies.Count == 0) {

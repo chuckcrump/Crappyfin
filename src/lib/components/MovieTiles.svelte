@@ -11,7 +11,7 @@
 </script>
 
 <div class="h-full w-full" out:blur={{duration: 200}} >
-  <div class="flex flex-col h-full shadow-2xl" >
+  <div class="flex flex-col h-full shadow-lg" >
     <div class=" flex-grow bg-[#343434] overflow-hidden rounded-lg hover:scale-[103%] transition-all ease-in-out duration-200" style="aspect-ratio: 2/3;">
       <button
         class="flex w-full h-full items-center justify-center"

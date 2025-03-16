@@ -7,7 +7,7 @@
   export let data 
 </script>
 
-<div class="flex justify-center" style="margin-top: 48px;">
+<div class="flex justify-center">
   {#if !data.movies}
     <LoadingSpinner size="40" />
   {:else}

@@ -67,7 +67,7 @@ public class DirectoryTraverser
         else
         {
             movie.Uuid = Guid.NewGuid().ToString();
-            File.WriteAllText(idPath, movie.Uuid);
+            addId(movie.Uuid, path);
         }
 
         string[] movieFiles = Directory.GetFiles(path);
@@ -100,7 +100,7 @@ public class DirectoryTraverser
                     movie.SubtitlePath = file;
                     break;
                 default:
-                    Console.WriteLine("Found unknown: " + file);
+                    movie.SubtitlePath = "no subtitle found";
                     break;
             }
         }
