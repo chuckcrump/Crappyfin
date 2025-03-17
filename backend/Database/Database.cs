@@ -4,7 +4,7 @@ namespace backend.Database;
 
 public class MovieDbContext : DbContext
 {
-    public DbSet<backend.Parser.MovieClass> Movies { get; set; }
+    public DbSet<Parser.MovieClass> Movies { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlite("Data Source=Movies.db");

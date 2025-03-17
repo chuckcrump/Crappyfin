@@ -1,6 +1,6 @@
 using backend.Database;
-using Microsoft.EntityFrameworkCore;
 using backend.Parser;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend;
 public static class MovieEndpoints
@@ -17,14 +17,13 @@ public static class MovieEndpoints
     }
     private static async Task<IResult> GetMovies()
     {
-        //if (mediaPath == null) {
         await using var context = new MovieDbContext();
         var mediaPath = Environment.GetEnvironmentVariable("MEDIA_PATH")!;
         await Parser.DirectoryTraverser.Traverse(mediaPath!);
         var movies = await context.Movies.ToListAsync();
+        // For future use
         //var movies = context.Movies.Select(m => new { m.Name, m.Uuid }).ToList();
         return movies.Count == 0 ? Results.Text("Media Path not specified") : Results.Json(movies);
-        //}
     }
     private static async Task<IResult> Preview(string uuid)
     {

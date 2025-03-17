@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddCors();
+
 // SwaggerUI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -39,11 +40,6 @@ app.UseCors(policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader())
 app.UseHttpsRedirection();
 
 Process.Start("../go_streaming/stream");
-
-//app.MapGet("/list", () =>
-//{
-//    return "Hello there! use the TypeScript backend for now :)";
-//}).WithName("Test").WithOpenApi();
 
 app.MapMovieEndpoints();
 
