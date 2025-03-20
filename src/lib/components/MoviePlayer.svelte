@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { blur, fly } from "svelte/transition";
+  import { Play, Pause, ArrowLeft } from "svelte-iconoir";
   import MediaControls from "./MediaControls.svelte";
   import { progress, subtitleTrack, volume, videoPaused, currentMovie, isPlaying } from "./stores";
   
@@ -113,9 +114,10 @@
     {#if showControls}
       <div class="flex flex-row top-1 left-1 fixed items-center" transition:fly={{duration: 200, y: -100}}>
         <button  aria-label="back" class="text-white p-1 m-1 hover:bg-gray-400/20 rounded-full h-[40px] w-[40px]" onclick={() => {isPlaying.set(false); progress.set(0); subtitleTrack.set("")}}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+          <!--svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5"/>
-          </svg>
+          </svg-->
+          <ArrowLeft stroke-width={3} fill="white" />
         </button>
         <p class="text-white text-[20px] h-fit">{currentMovieName}</p>
       </div>
