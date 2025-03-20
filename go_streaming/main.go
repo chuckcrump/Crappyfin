@@ -6,6 +6,9 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 func enableCors(next http.Handler) http.Handler {
@@ -23,27 +26,26 @@ func enableCors(next http.Handler) http.Handler {
 	})
 }
 
-func stream_video(w http.ResponseWriter, r *http.Request) {
-	movie_path := r.URL.Query().Get("movie")
-	if movie_path == "" {
-		w.WriteHeader(http.StatusNotFound)
+func stream_video(c *fiber.Ctx) error {
+	path := c.Query("path")
+	if path == "" {
+		return c.Status(fiber.StatusNotFound).SendString("No path sent")
 	}
-  //formatted_path := movie_path[3:]
-	videoPath := movie_path 
+
+	videoPath := path
 	file, err := os.Open(videoPath)
 	if err != nil {
-		http.Error(w, "File not found", http.StatusNotFound)
-		return
+		return c.Status(fiber.StatusNotFound).SendString("Video not found")
 	}
 	defer file.Close()
 
 	stat, _ := file.Stat()
 	fileSize := stat.Size()
 
-	w.Header().Set("Content-Type", "video/mp4")
-	w.Header().Set("Accept-Ranges", "bytes")
+	c.Set("Content-Type", "video/mp4")
+	c.Set("Accept-Ranges", "bytes")
 
-	rangeHeader := r.Header.Get("Range")
+	rangeHeader := c.Get("Range")
 	if rangeHeader != "" {
 		var start, end int64
 		fmt.Sscanf(rangeHeader, "bytes=%d-%d", &start, &end)
@@ -59,29 +61,38 @@ func stream_video(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 
-		w.Header().Set("Content-Range", fmt.Sprintf("bytes %d-%d/%d", start, end, fileSize))
-		w.Header().Set("Content-Length", strconv.FormatInt(end-start+1, 10))
-		w.WriteHeader(http.StatusPartialContent)
+		c.Set("Content-Range", fmt.Sprintf("bytes %d-%d/%d", start, end, fileSize))
+		c.Set("Content-Length", strconv.FormatInt(end - start + 1, 10))
+		c.Status(http.StatusPartialContent)
 
 		file.Seek(start, 0)
-		io.CopyN(w, file, end-start+1)
-		return
+		return c.SendStream(io.LimitReader(file, end - start + 1))
 	}
 
-	w.Header().Set("Content-Length", strconv.FormatInt(fileSize, 10))
-	io.Copy(w, file)
+	c.Set("Content-Length", strconv.FormatInt(fileSize, 10))
+	return c.SendStream(file)
 }
 
-func stream_subtitle(w http.ResponseWriter, r *http.Request) {
-  sub_path := r.URL.Query().Get("sub")
-  http.ServeFile(w, r, sub_path)
+func stream_subtitle(c *fiber.Ctx) error {
+  sub_path := c.Query("sub")
+  return c.SendFile(sub_path)
 }
 
 func main() {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/go/media/stream", stream_video)
-	mux.HandleFunc("/go/media/subtitles", stream_subtitle)
-	cors := enableCors(mux)
-	fmt.Println("Server running at http://0.0.0.0:8081/go")
-	http.ListenAndServe("0.0.0.0:8081", cors)
+	app := fiber.New()
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "*",
+		AllowMethods: "GET,POST,OPTIONS",
+		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
+	}))
+	app.Get("/go/media/stream")
+	app.Listen(":8081")
+
+	//mux := http.NewServeMux()
+	//mux.HandleFunc("/go/media/stream", stream_video)
+	//mux.HandleFunc("/go/media/subtitles", stream_subtitle)
+	//mux.HandleFunc("/go/media/token", handleTokens)
+	//cors := enableCors(mux)
+	//fmt.Println("Server running at http://0.0.0.0:8081/go")
+	//http.ListenAndServe("0.0.0.0:8081", cors)
 }

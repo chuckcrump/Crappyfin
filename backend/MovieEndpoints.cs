@@ -44,6 +44,6 @@ public static class MovieEndpoints
         {
             return Results.NotFound("movie file not found");
         }
-        return Results.Text("hi this is not complete");
+        return Results.Json(match);
     }
 }

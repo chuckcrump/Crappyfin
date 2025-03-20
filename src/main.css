@@ -5,7 +5,11 @@
 }
 
 .btn-normal {
-  @apply p-2 rounded-xl bg-indigo-500 text-white cursor-pointer active:scale-95 transition-all ease-in-out;
+  @apply p-2 rounded-xl text-white cursor-pointer active:scale-95 transition-all ease-in-out;
+}
+
+.btn-category {
+  @apply p-2 rounded-xl cursor-pointer text-white hover:bg-[#444444] active:scale-95 transition-all ease-in-out;
 }
 
 .media-slider {
