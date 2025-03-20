@@ -17,3 +17,4 @@ export const volume = writable(1.0);
 export const subtitleTrack = writable("");
 export const videoPaused = writable(true);
 export const formattedTime = writable("");
+export const showSidebar = writable(false);

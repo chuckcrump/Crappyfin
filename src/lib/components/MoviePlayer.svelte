@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { blur, fly } from "svelte/transition";
-  import { Play, Pause, ArrowLeft } from "svelte-iconoir";
+  import {ArrowLeft } from "svelte-iconoir";
   import MediaControls from "./MediaControls.svelte";
   import { progress, subtitleTrack, volume, videoPaused, currentMovie, isPlaying } from "./stores";
   
@@ -80,7 +80,6 @@
       }
     })
   })
-
 </script>
 
 {#if $isPlaying}
