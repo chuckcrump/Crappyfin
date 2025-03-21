@@ -16,6 +16,7 @@ This is not related to Jellyfin in any way.
 - `/login` is a placeholder login page.
 - `/media` will be the place to see all your media folders.
 - `/media/movies` is the only fully functional route.
+- `/watch/{uuid}` will be the future streaming route.
 
 ### How to run
 
