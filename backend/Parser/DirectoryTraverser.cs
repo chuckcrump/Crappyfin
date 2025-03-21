@@ -102,7 +102,7 @@ public static class DirectoryTraverser
                     movie.SubtitlePath = file;
                     break;
                 default:
-                    movie.SubtitlePath = "no subtitle found";
+                    //Console.WriteLine("No subtitle found");
                     break;
             }
         }
