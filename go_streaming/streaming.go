@@ -129,5 +129,6 @@ func sendSubtitle(w http.ResponseWriter, r *http.Request) {
 			subPath = movie.SubtitlePath
 		}
 	}
+	w.Header().Set("Content-Type", "text/vtt")
 	http.ServeFile(w, r, subPath)
 }

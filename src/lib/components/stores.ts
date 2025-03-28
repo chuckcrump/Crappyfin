@@ -18,3 +18,5 @@ export const subtitleTrack = writable("");
 export const videoPaused = writable(true);
 export const formattedTime = writable("");
 export const showSidebar = writable(false);
+export const showSearchDialog = writable(true);
+export const searchQuery = writable("");

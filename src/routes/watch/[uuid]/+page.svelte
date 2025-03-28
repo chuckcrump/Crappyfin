@@ -1,13 +1,16 @@
 <script lang="ts">
   import { blur } from 'svelte/transition';
   import { page } from '$app/state';
-  let uuid: string | undefined = $state("");
-  $effect: uuid = page.url.pathname.split("/").pop()
-  let { data } = $props()
+  import MoviePlayer from '$lib/components/MoviePlayer.svelte';
+  import { onMount } from 'svelte';
+  let uuid: string | undefined;
+  
+  onMount(async () => {
+    uuid = page.params.uuid;
+  })
+
 </script>
 
-<div in:blur={{duration: 400}}>
-  <p>{uuid}</p>
-  <!-- svelte-ignore a11y_media_has_caption -->
-  <video src="{import.meta.env.VITE_GO_SERVER_URL}/go/media/stream?uuid={uuid}" controls></video>
+<div class=" h-screen w-screen bg-black" in:blur={{duration: 400}}>
+  <MoviePlayer uuid={uuid} />
 </div>

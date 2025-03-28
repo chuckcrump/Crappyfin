@@ -14,15 +14,7 @@
   let currentSubText: string;
   let trackElement: HTMLTrackElement | null = null;
 
-  async function loadMovie(movie: any) {
-    currentMovieUrl = `${import.meta.env.VITE_GO_SERVER_URL}/go/media/stream?movie=${movie.videoPath}`
-    currentSubUrl = `${import.meta.env.VITE_GO_SERVER_URL}/go/media/subtitles?sub=${movie.subtitlePath}`
-    if (movie.name) {
-      currentMovieName = movie.name
-    }
-    hideSubs()
-  }
-  $: loadMovie($currentMovie);
+  export let uuid
 
   function toggleMovie() {
     if (video?.paused) {
@@ -71,6 +63,7 @@
     subtitleTrack.set("")
     progress.set(0)
     videoPaused.set(true)
+    isPlaying.set(true)
     if (video) {
       video.volume = 1.0
     }
@@ -104,8 +97,8 @@
       ontimeupdate={progressUpdate}
       onclick={toggleMovie}
     >
-      <source src={currentMovieUrl} type="video/mp4" >
-      <track class=" hidden" bind:this={trackElement} oncuechange={updateSubText} src={currentSubUrl} kind="subtitles" srclang="en" label="English"/>
+      <source src="{import.meta.env.VITE_GO_SERVER_URL}/go/media/stream?uuid={uuid}" type="video/mp4" >
+      <track class=" hidden" bind:this={trackElement} oncuechange={updateSubText} src="{import.meta.env.VITE_GO_SERVER_URL}/go/media/subtitle?uuid={uuid}" kind="subtitles" srclang="en" label="English"/>
     </video>
     <div class="flex items-center justify-center fixed bottom-[75px] max-w-[500px] text-wrap">
       <p class=" text-center text-[27px] text-white">{@html currentSubText}</p>

@@ -13,13 +13,13 @@ public static class MovieEndpoints
         var movie = routes.MapGroup("/movies");
         movie.MapGet("/list", GetMovies).WithName("List of movies").Produces<MovieClass>(200, "application/json");
         movie.MapGet("/preview/{uuid}/cover", Preview).Accepts<string>("0419cde2-7e8f-4942-960a-b41bff94b98a");
-        movie.MapGet("/stream/{uuid}", StartStream).Produces<StreamUrl>(200, "application/text");
+        movie.MapGet("/download/{uuid}", Download);
     }
     private static async Task<IResult> GetMovies()
     {
         await using var context = new MovieDbContext();
         var mediaPath = Environment.GetEnvironmentVariable("MEDIA_PATH")!;
-        await Parser.DirectoryTraverser.Traverse(mediaPath!);
+        await DirectoryTraverser.Traverse(mediaPath!);
         var movies = await context.Movies.ToListAsync();
         // For future use
         //var movies = context.Movies.Select(m => new { m.Name, m.Uuid }).ToList();
@@ -36,14 +36,17 @@ public static class MovieEndpoints
         const string type = "image/jpeg";
         return Results.File(selectedMovie.CoverPath, type);
     }
-    private static async Task<IResult> StartStream(string uuid)
+    private static async Task<IResult> Download(string uuid)
     {
         await using var context = new MovieDbContext();
-        var match = await context.Movies.FirstOrDefaultAsync(m => m.Uuid == uuid);
-        if (match == null || !File.Exists(match.VideoPath))
+        var moviePath = await context.Movies.FirstOrDefaultAsync(m => m.Uuid == uuid);
+        if (moviePath == null || !File.Exists(moviePath.VideoPath))
         {
-            return Results.NotFound("movie file not found");
+            return Results.NotFound("Video not found");
         }
-        return Results.Json(match);
+        string name = Path.GetFileName(moviePath.VideoPath);
+        const string type = "application/octet-stream";
+        var bytes = new FileStream(moviePath.VideoPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+        return Results.File(bytes, type, name);
     }
 }
